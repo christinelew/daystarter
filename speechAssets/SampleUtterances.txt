@@ -1,13 +1,13 @@
-ReadSummary start my day
+ReadSummaryIntent start my day
 
-ReadSchedule read me my schedule
-ReadSchedule read my schedule
-ReadSchedule read me my meetings
-ReadSchedule read my meetings
-ReadSchedule what is my schedule
+ReadScheduleIntent read me my schedule
+ReadScheduleIntent read my schedule
+ReadScheduleIntent read me my meetings
+ReadScheduleIntent read my meetings
+ReadScheduleIntent what is my schedule
 
-ReadEmailList read me my emails
-ReadEmailList read me my unread emails
-ReadEmailList read my emails
-ReadEmailList read my unread emails
-ReadEmailList what are my unread emails
+ReadEmailListIntent read me my emails
+ReadEmailListIntent read me my unread emails
+ReadEmailListIntent read my emails
+ReadEmailListIntent read my unread emails
+ReadEmailListIntent what are my unread emails

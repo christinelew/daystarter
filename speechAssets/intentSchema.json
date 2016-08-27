@@ -1,13 +1,13 @@
 {
   "intents": [
     {
-      "intent": "ReadSummary"
+      "intent": "ReadSummaryIntent"
     },
     {
-      "intent": "ReadSchedule"
+      "intent": "ReadScheduleIntent"
     },
     {
-      "intent": "ReadEmailList"
+      "intent": "ReadEmailListIntent"
     }
   ]
 }
