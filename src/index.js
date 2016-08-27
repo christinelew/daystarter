@@ -27,41 +27,41 @@ var APP_ID = undefined;
 var AlexaSkill = require('./AlexaSkill');
 
 /**
- * HelloWorld is a child of AlexaSkill.
+ * DayStarter is a child of AlexaSkill.
  * To read more about inheritance in JavaScript, see the link below.
  *
  * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript#Inheritance
  */
-var HelloWorld = function () {
+var DayStarter = function () {
     AlexaSkill.call(this, APP_ID);
 };
 
 // Extend AlexaSkill
-HelloWorld.prototype = Object.create(AlexaSkill.prototype);
-HelloWorld.prototype.constructor = HelloWorld;
+DayStarter.prototype = Object.create(AlexaSkill.prototype);
+DayStarter.prototype.constructor = DayStarter;
 
-HelloWorld.prototype.eventHandlers.onSessionStarted = function (sessionStartedRequest, session) {
-    console.log("HelloWorld onSessionStarted requestId: " + sessionStartedRequest.requestId
+DayStarter.prototype.eventHandlers.onSessionStarted = function (sessionStartedRequest, session) {
+    console.log("DayStarter onSessionStarted requestId: " + sessionStartedRequest.requestId
         + ", sessionId: " + session.sessionId);
     // any initialization logic goes here
 };
 
-HelloWorld.prototype.eventHandlers.onLaunch = function (launchRequest, session, response) {
-    console.log("HelloWorld onLaunch requestId: " + launchRequest.requestId + ", sessionId: " + session.sessionId);
+DayStarter.prototype.eventHandlers.onLaunch = function (launchRequest, session, response) {
+    console.log("DayStarter onLaunch requestId: " + launchRequest.requestId + ", sessionId: " + session.sessionId);
     var speechOutput = "Welcome to the Alexa Skills Kit, you can say hello";
     var repromptText = "You can say hello";
     response.ask(speechOutput, repromptText);
 };
 
-HelloWorld.prototype.eventHandlers.onSessionEnded = function (sessionEndedRequest, session) {
-    console.log("HelloWorld onSessionEnded requestId: " + sessionEndedRequest.requestId
+DayStarter.prototype.eventHandlers.onSessionEnded = function (sessionEndedRequest, session) {
+    console.log("DayStarter onSessionEnded requestId: " + sessionEndedRequest.requestId
         + ", sessionId: " + session.sessionId);
     // any cleanup logic goes here
 };
 
-HelloWorld.prototype.intentHandlers = {
+DayStarter.prototype.intentHandlers = {
     // register custom intent handlers
-    "HelloWorldIntent": function (intent, session, response) {
+    "DayStarterIntent": function (intent, session, response) {
         response.tellWithCard("Hello World!", "Hello World", "Hello World!");
     },
     "AMAZON.HelpIntent": function (intent, session, response) {
@@ -71,7 +71,7 @@ HelloWorld.prototype.intentHandlers = {
 
 // Create the handler that responds to the Alexa Request.
 exports.handler = function (event, context) {
-    // Create an instance of the HelloWorld skill.
-    var helloWorld = new HelloWorld();
-    helloWorld.execute(event, context);
+    // Create an instance of the DayStarter skill.
+    var DayStarter = new DayStarter();
+    DayStarter.execute(event, context);
 };
