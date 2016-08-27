@@ -121,8 +121,10 @@ function handleReadSummaryIntent(session, response) {
 
     https.get(url, function(res) {
         var body = '';
+        console.log('Response stream: ' + res);
 
         res.on('data', function (chunk) {
+            console.log('Chunk: ' + chunk);
             body += chunk;
         });
 
