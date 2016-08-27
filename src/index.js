@@ -71,13 +71,13 @@ DayStarter.prototype.intentHandlers = {
         handleReadSummaryIntent(session, response);
     },
 
-    "ReadScheduleIntent": function (intent, session, response) {
-        handleReadScheduleIntent(session, response);
-    },
+    // "ReadScheduleIntent": function (intent, session, response) {
+        // handleReadScheduleIntent(session, response);
+    // },
 
-    "ReadEmailListIntent": function (intent, session, response) {
-        handleReadEmailListIntent(session, response);
-    },
+    // "ReadEmailListIntent": function (intent, session, response) {
+        // handleReadEmailListIntent(session, response);
+    // },
 
     "AMAZON.HelpIntent": function (intent, session, response) {
         var speechText = "To hear your summary, say start my day."
