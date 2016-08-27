@@ -130,9 +130,9 @@ function handleReadSummaryIntent(session, response) {
         });
 
         res.on('end', function () {
-            mailResult = body;
-            // mailResult = JSON.parse(body);
-            console.log('Mail result: ' + mailResult);
+            // mailResult = '"' + body + '"';
+            mailResult = JSON.parse("'" + body + "'");
+            console.log('Mail result: ' + JSON.stringify(mailResult));
         });
     }).on('error', function (e) {
         console.log("Got error: ", e);
