@@ -1,0 +1,13 @@
+{
+  "intents": [
+    {
+      "intent": "ReadSummary"
+    },
+    {
+      "intent": "ReadSchedule"
+    },
+    {
+      "intent": "ReadEmailList"
+    }
+  ]
+}
