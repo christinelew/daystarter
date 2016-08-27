@@ -146,7 +146,7 @@ function handleReadSummaryIntent(session, response) {
     // });
 	
 	// Output Summary Text
-	speechText = "You have " + meetingResult['@odata.count'] + " meetings;
+	speechText = "You have " + meetingResult['@odata.count'] + " meetings";
 	//speechText = "You have " + meetingResult['@odata.count'] + " meetings and " + eventResult['@odata.count'] + " events today";
 
     var speechOutput = {
