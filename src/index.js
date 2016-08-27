@@ -117,7 +117,7 @@ function handleReadSummaryIntent(session, response) {
     var repromptText = "Would you like to hear your schedule or email?";
 	
 	var url = urlPrefix + "mail";
-	var mailResult = "";
+	var mailResult = null;
 
     https.get(url, function(res) {
         var body = '';
@@ -129,7 +129,8 @@ function handleReadSummaryIntent(session, response) {
         });
 
         res.on('end', function () {
-            mailResult = JSON.parse(body);
+            mailResult = body;
+            // mailResult = JSON.parse(body);
             console.log('Mail result: ' + mailResult);
         });
     }).on('error', function (e) {
