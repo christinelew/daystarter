@@ -268,7 +268,7 @@ function handleReadEmailListIntent(session, response) {
 
 // Create the handler that responds to the Alexa Request.
 exports.handler = function (event, context) {
-    // Create an instance of the WiseGuy Skill.
+    // Create an instance of the DayStarter Skill.
     var skill = new DayStarter();
     skill.execute(event, context);
 };
