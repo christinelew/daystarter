@@ -21,6 +21,7 @@ var urlPrefix = 'https://ec2-54-211-239-93.compute-1.amazonaws.com/';
  */
 var AlexaSkill = require('./AlexaSkill');
 var https = require('https');
+
 /**
  * DayStarter is a child of AlexaSkill.
  * To read more about inheritance in JavaScript, see the link below.
@@ -28,6 +29,7 @@ var https = require('https');
  * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript#Inheritance
  */
 var DayStarter = function () {
+	require('ssl-root-cas').inject();
     AlexaSkill.call(this, APP_ID);
 };
 
@@ -116,6 +118,7 @@ function handleReadSummaryIntent(session, response) {
 	
 	var url = urlPrefix + "mail";
 	var mailResult = "";
+
     https.get(url, function(res) {
         var body = '';
 
