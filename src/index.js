@@ -115,7 +115,7 @@ function handleReadSummaryIntent(session, response) {
     var repromptText = "Would you like to hear your schedule or email?";
 	
 	var url = urlPrefix + "mail";
-	var meetingResult = "";
+	var mailResult = "";
     https.get(url, function(res) {
         var body = '';
 
@@ -124,7 +124,7 @@ function handleReadSummaryIntent(session, response) {
         });
 
         res.on('end', function () {
-            stringResult = JSON.parse(body);
+            mailResult = JSON.parse(body);
         });
     }).on('error', function (e) {
         console.log("Got error: ", e);
@@ -139,15 +139,15 @@ function handleReadSummaryIntent(session, response) {
         // });
 
         // res.on('end', function () {
-            // stringResult = JSON.parse(body);
+            // eventResult = JSON.parse(body);
         // });
     // }).on('error', function (e) {
         // console.log("Got error: ", e);
     // });
 	
 	// Output Summary Text
-	speechText = "You have " + meetingResult['@odata.count'] + " meetings";
-	//speechText = "You have " + meetingResult['@odata.count'] + " meetings and " + eventResult['@odata.count'] + " events today";
+	speechText = "You have " + mailResult['@odata.count'] + " unread mails";
+	//speechText = "You have " + mailResult['@odata.count'] + " meetings and " + eventResult['@odata.count'] + " events today";
 
     var speechOutput = {
         speech: speechText,
