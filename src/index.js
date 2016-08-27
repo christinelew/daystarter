@@ -125,6 +125,7 @@ function handleReadSummaryIntent(session, response) {
 
         res.on('end', function () {
             mailResult = JSON.parse(body);
+            console.log('Mail result: ' + mailResult);
         });
     }).on('error', function (e) {
         console.log("Got error: ", e);
