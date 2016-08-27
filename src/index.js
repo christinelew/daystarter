@@ -21,6 +21,7 @@ var urlPrefix = 'https://ec2-54-211-239-93.compute-1.amazonaws.com/';
  */
 var AlexaSkill = require('./AlexaSkill');
 var https = require('https');
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 /**
  * DayStarter is a child of AlexaSkill.
