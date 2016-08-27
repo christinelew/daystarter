@@ -20,7 +20,7 @@ var urlPrefix = 'https://ec2-54-211-239-93.compute-1.amazonaws.com/';
  * The AlexaSkill prototype and helper functions
  */
 var AlexaSkill = require('./AlexaSkill');
-
+var https = require('https');
 /**
  * DayStarter is a child of AlexaSkill.
  * To read more about inheritance in JavaScript, see the link below.
@@ -124,29 +124,30 @@ function handleReadSummaryIntent(session, response) {
         });
 
         res.on('end', function () {
-            stringResult = parseJson(body);
+            stringResult = JSON.parse(body);
         });
     }).on('error', function (e) {
         console.log("Got error: ", e);
     });
 	
-	var eventResult = "";
-    https.get(url, function(res) {
-        var body = '';
+	// var eventResult = "";
+    // https.get(url, function(res) {
+        // var body = '';
 
-        res.on('data', function (chunk) {
-            body += chunk;
-        });
+        // res.on('data', function (chunk) {
+            // body += chunk;
+        // });
 
-        res.on('end', function () {
-            stringResult = parseJson(body);
-        });
-    }).on('error', function (e) {
-        console.log("Got error: ", e);
-    });
+        // res.on('end', function () {
+            // stringResult = JSON.parse(body);
+        // });
+    // }).on('error', function (e) {
+        // console.log("Got error: ", e);
+    // });
 	
 	// Output Summary Text
-	speechText = "You have " + meetingResult['@odata.count'] + " meetings and " + eventResult['@odata.count'] + " events today";
+	speechText = "You have " + meetingResult['@odata.count'] + " meetings;
+	//speechText = "You have " + meetingResult['@odata.count'] + " meetings and " + eventResult['@odata.count'] + " events today";
 
     var speechOutput = {
         speech: speechText,
@@ -177,7 +178,7 @@ function handleReadScheduleIntent(session, response) {
         });
 
         res.on('end', function () {
-            stringResult = parseJson(body);
+            stringResult = JSON.parse(body);
         });
     }).on('error', function (e) {
         console.log("Got error: ", e);
@@ -186,7 +187,7 @@ function handleReadScheduleIntent(session, response) {
 	// loop through events subject and location/time
 
 	speechText = "Here are your meeting.";
-	for(meeting: stringResult.value) {
+	for(var meeting in stringResult.value) {
 		speechText += meeting.Organizer.EmailAddress.Name + " sent ";
 		speechText += meeting.Subject;
 		speechText += " scheduled for " + meeting.Start.DateTime;
@@ -222,7 +223,7 @@ function handleReadEmailListIntent(session, response) {
         });
 
         res.on('end', function () {
-            stringResult = parseJson(body);
+            stringResult = JSON.parse(body);
         });
     }).on('error', function (e) {
         console.log("Got error: ", e);
@@ -232,7 +233,7 @@ function handleReadEmailListIntent(session, response) {
 	// loop through  sender and email subject
 	
 	speechText = "Here are your unread emails.";
-	for(email: stringResult.value) {
+	for(var email in stringResult.value) {
 		speechText += email.Sender.EmailAddress.Name + " sent";
 		speechText += email.Subject;
 	}
