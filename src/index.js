@@ -124,14 +124,13 @@ function handleReadSummaryIntent(session, response) {
         console.log('Response stream: ' + res);
 
         res.on('data', function (chunk) {
-            console.log('Chunk: ' + chunk);
             body += chunk;
             console.log('Body: ' + body);
         });
 
         res.on('end', function () {
             // mailResult = '"' + body + '"';
-            mailResult = JSON.parse("'" + body + "'");
+            mailResult = JSON.parse(body);
             console.log('Mail result: ' + JSON.stringify(mailResult));
         });
     }).on('error', function (e) {
@@ -154,7 +153,7 @@ function handleReadSummaryIntent(session, response) {
     // });
 	
 	// Output Summary Text
-	speechText = "You have " + mailResult['@odata.count'] + " unread mails";
+	speechText = "You have " + mailResult.value.length.toString() + " unread mails";
 	//speechText = "You have " + mailResult['@odata.count'] + " meetings and " + eventResult['@odata.count'] + " events today";
 
     var speechOutput = {
