@@ -30,8 +30,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
  * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript#Inheritance
  */
 var DayStarter = function () {
-	require('ssl-root-cas').inject();
-    AlexaSkill.call(this, APP_ID);
+	AlexaSkill.call(this, APP_ID);
 };
 
 // Extend AlexaSkill
