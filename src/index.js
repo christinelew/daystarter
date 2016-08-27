@@ -13,6 +13,8 @@
  */
 var APP_ID = undefined;
 var APP_ID = 'amzn1.ask.skill.b5628a6f-bc1d-4d2c-8e64-5e2bd46a2bf1';
+var urlPrefix = 'https://ec2-54-211-239-93.compute-1.amazonaws.com/';
+
 
 /**
  * The AlexaSkill prototype and helper functions
@@ -111,9 +113,40 @@ function handleReadSummaryIntent(session, response) {
 
     //Reprompt speech will be triggered if the user doesn't respond.
     var repromptText = "Would you like to hear your schedule or email?";
+	
+	var url = urlPrefix + "mail";
+	var meetingResult = "";
+    https.get(url, function(res) {
+        var body = '';
 
+        res.on('data', function (chunk) {
+            body += chunk;
+        });
+
+        res.on('end', function () {
+            stringResult = parseJson(body);
+        });
+    }).on('error', function (e) {
+        console.log("Got error: ", e);
+    });
+	
+	var eventResult = "";
+    https.get(url, function(res) {
+        var body = '';
+
+        res.on('data', function (chunk) {
+            body += chunk;
+        });
+
+        res.on('end', function () {
+            stringResult = parseJson(body);
+        });
+    }).on('error', function (e) {
+        console.log("Got error: ", e);
+    });
+	
 	// Output Summary Text
-	speechText = "You have " + numMeetings + " meetings and " + numEvents + " events today";
+	speechText = "You have " + meetingResult['@odata.count'] + " meetings and " + eventResult['@odata.count'] + " events today";
 
     var speechOutput = {
         speech: speechText,
@@ -134,9 +167,32 @@ function handleReadScheduleIntent(session, response) {
     var speechText = "";
     var repromptText = "";
 
+	var url = urlPrefix + "calendar";
+	var stringResult = "";
+    https.get(url, function(res) {
+        var body = '';
+
+        res.on('data', function (chunk) {
+            body += chunk;
+        });
+
+        res.on('end', function () {
+            stringResult = parseJson(body);
+        });
+    }).on('error', function (e) {
+        console.log("Got error: ", e);
+    });
+	
 	// loop through events subject and location/time
 
-    repromptText = "You can ask, " + speechText + " who?";
+	speechText = "Here are your meeting.";
+	for(meeting: stringResult.value) {
+		speechText += meeting.Organizer.EmailAddress.Name + " sent ";
+		speechText += meeting.Subject;
+		speechText += " scheduled for " + meeting.Start.DateTime;
+		speechText += " at " + meeting.Location.DisplayName;
+	}
+    repromptText = "You can ask, read my email or read my schedule";
     
     var speechOutput = {
         speech: '<speak>' + speechText + '</speak>',
@@ -156,9 +212,32 @@ function handleReadEmailListIntent(session, response) {
     var speechText = "";
     var repromptText = "";
 
-	// loop through events subject and location/time
+	var url = urlPrefix + "mail";
+	var stringResult = "";
+    https.get(url, function(res) {
+        var body = '';
 
-    repromptText = "You can ask, " + speechText + " who?";
+        res.on('data', function (chunk) {
+            body += chunk;
+        });
+
+        res.on('end', function () {
+            stringResult = parseJson(body);
+        });
+    }).on('error', function (e) {
+        console.log("Got error: ", e);
+    });
+	
+	
+	// loop through  sender and email subject
+	
+	speechText = "Here are your unread emails.";
+	for(email: stringResult.value) {
+		speechText += email.Sender.EmailAddress.Name + " sent";
+		speechText += email.Subject;
+	}
+	
+    repromptText = "You can ask, read my email or read my schedule";
     
     var speechOutput = {
         speech: '<speak>' + speechText + '</speak>',
