@@ -11,7 +11,7 @@
 /**
  * App ID for the skill
  */
-var APP_ID = undefined;
+
 var APP_ID = 'amzn1.ask.skill.b5628a6f-bc1d-4d2c-8e64-5e2bd46a2bf1';
 var urlPrefix = 'https://ec2-54-211-239-93.compute-1.amazonaws.com/';
 
@@ -30,7 +30,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
  * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript#Inheritance
  */
 var DayStarter = function () {
-	require('ssl-root-cas').inject();
+	require('node-ssl-root-cas-master/ssl-root-cas').inject();
     AlexaSkill.call(this, APP_ID);
 };
 
@@ -191,7 +191,7 @@ function handleReadScheduleIntent(session, response) {
 	
 	// loop through events subject and location/time
 
-	speechText = "Here are your meeting.";
+	speechText = "Here are your meetings.";
 	for(var meeting in stringResult.value) {
 		speechText += meeting.Organizer.EmailAddress.Name + " sent ";
 		speechText += meeting.Subject;
