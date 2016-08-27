@@ -76,23 +76,9 @@ DayStarter.prototype.intentHandlers = {
     },
 
     "AMAZON.HelpIntent": function (intent, session, response) {
-        var speechText = "";
-
-        switch (session.attributes.stage) {
-            case 0:
-                speechText = "Knock knock jokes are a fun call and response type of joke. " +
-                    "To start the joke, just ask by saying tell me a joke, or you can say exit.";
-                break;
-            case 1:
-                speechText = "You can ask, who's there, or you can say exit.";
-                break;
-            case 2:
-                speechText = "You can ask, who, or you can say exit.";
-                break;
-            default:
-                speechText = "Knock knock jokes are a fun call and response type of joke. " +
-                    "To start the joke, just ask by saying tell me a joke, or you can say exit.";
-        }
+        var speechText = "To hear your summary, say start my day."
+		+ "To hear your schedule, say read my schedule."
+		+ "To hear your unread emails, say read my emails.";
 
         var speechOutput = {
             speech: speechText,
@@ -118,40 +104,16 @@ DayStarter.prototype.intentHandlers = {
 };
 
 /**
- * Selects a joke randomly and starts it off by saying "Knock knock".
+ * Reading Daily Summary Output".
  */
 function handleReadSummaryIntent(session, response) {
     var speechText = "";
 
     //Reprompt speech will be triggered if the user doesn't respond.
-    var repromptText = "You can ask, who's there";
+    var repromptText = "Would you like to hear your schedule or email?";
 
-    //Check if session variables are already initialized.
-    if (session.attributes.stage) {
-
-        //Ensure the dialogue is on the correct stage.
-        if (session.attributes.stage === 0) {
-            //The joke is already initialized, this function has no more work.
-            speechText = "knock knock!";
-        } else {
-            //The user attempted to jump to the intent of another stage.
-            session.attributes.stage = 0;
-            speechText = "That's not how knock knock jokes work! "
-                + "knock knock";
-        }
-    } else {
-        //Select a random joke and store it in the session variables.
-        var jokeID = Math.floor(Math.random() * JOKE_LIST.length);
-
-        //The stage variable tracks the phase of the dialogue. 
-        //When this function completes, it will be on stage 1.
-        session.attributes.stage = 1;
-        session.attributes.setup = JOKE_LIST[jokeID].setup;
-        session.attributes.speechPunchline = JOKE_LIST[jokeID].speechPunchline;
-        session.attributes.cardPunchline = JOKE_LIST[jokeID].cardPunchline;
-
-        speechText = "Knock knock!";
-    }
+	// Output Summary Text
+	speechText = "You have " + numMeetings + " meetings and " + numEvents + " events today";
 
     var speechOutput = {
         speech: speechText,
@@ -161,41 +123,21 @@ function handleReadSummaryIntent(session, response) {
         speech: repromptText,
         type: AlexaSkill.speechOutputType.PLAIN_TEXT
     };
-    response.askWithCard(speechOutput, repromptOutput, "Wise Guy", speechText);
+	
+    response.askWithCard(speechOutput, repromptOutput, "Read Summary", speechText);
 }
 
 /**
- * Responds to the user saying "Who's there".
+ * Reading daily schedule 
  */
 function handleReadScheduleIntent(session, response) {
     var speechText = "";
     var repromptText = "";
 
-    if (session.attributes.stage) {
-        if (session.attributes.stage === 1) {
-            //Retrieve the joke's setup text.
-            speechText = session.attributes.setup;
+	// loop through events subject and location/time
 
-            //Advance the stage of the dialogue.
-            session.attributes.stage = 2;
-
-            repromptText = "You can ask, " + speechText + " who?";
-        } else {
-            session.attributes.stage = 1;
-            speechText = "That's not how knock knock jokes work! <break time=\"0.3s\" /> "
-                + "knock knock";
-
-            repromptText = "You can ask, who's there."
-        }
-    } else {
-
-        //If the session attributes are not found, the joke must restart. 
-        speechText = "Sorry, I couldn't correctly retrieve the joke. "
-            + "You can say, tell me a joke";
-
-        repromptText = "You can say, tell me a joke";
-    }
-
+    repromptText = "You can ask, " + speechText + " who?";
+    
     var speechOutput = {
         speech: '<speak>' + speechText + '</speak>',
         type: AlexaSkill.speechOutputType.SSML
@@ -211,59 +153,22 @@ function handleReadScheduleIntent(session, response) {
  * Delivers the punchline of the joke after the user responds to the setup.
  */
 function handleReadEmailListIntent(session, response) {
-    var speechText = "",
-        repromptText = "",
-        speechOutput,
-        repromptOutput,
-        cardOutput;
+    var speechText = "";
+    var repromptText = "";
 
-    if (session.attributes.stage) {
-        if (session.attributes.stage === 2) {
-            speechText = session.attributes.speechPunchline;
-            cardOutput = session.attributes.cardPunchline;
-            speechOutput = {
-                speech: '<speak>' + speechText + '</speak>',
-                type: AlexaSkill.speechOutputType.SSML
-            };
-            //If the joke completes successfully, this function uses a "tell" response.
-            response.tellWithCard(speechOutput, "Wise Guy", cardOutput);
-        } else {
+	// loop through events subject and location/time
 
-            session.attributes.stage = 1;
-            speechText = "That's not how knock knock jokes work! <break time=\"0.3s\" /> "
-                + "Knock knock!";
-            cardOutput = "That's not how knock knock jokes work! "
-                + "Knock knock!";
-
-            repromptText = "You can ask who's there.";
-
-            speechOutput = {
-                speech: speechText,
-                type: AlexaSkill.speechOutputType.SSML
-            };
-            repromptOutput = {
-                speech: repromptText,
-                type: AlexaSkill.speechOutputType.PLAIN_TEXT
-            };
-            //If the joke has to be restarted, this function uses an "ask" response.
-            response.askWithCard(speechOutput, repromptOutput, "Wise Guy", cardOutput);
-        }
-    } else {
-        speechText = "Sorry, I couldn't correctly retrieve the joke. "
-            + "You can say, tell me a joke";
-
-        repromptText = "You can say, tell me a joke";
-
-        speechOutput = {
-            speech: speechText,
-            type: AlexaSkill.speechOutputType.PLAIN_TEXT
-        };
-        repromptOutput = {
-            speech: repromptText,
-            type: AlexaSkill.speechOutputType.PLAIN_TEXT
-        };
-        response.askWithCard(speechOutput, repromptOutput, "Wise Guy", speechOutput);
-    }
+    repromptText = "You can ask, " + speechText + " who?";
+    
+    var speechOutput = {
+        speech: '<speak>' + speechText + '</speak>',
+        type: AlexaSkill.speechOutputType.SSML
+    };
+    var repromptOutput = {
+        speech: '<speak>' + repromptText + '</speak>',
+        type: AlexaSkill.speechOutputType.SSML
+    };
+    response.ask(speechOutput, repromptOutput);
 }
 
 // Create the handler that responds to the Alexa Request.
